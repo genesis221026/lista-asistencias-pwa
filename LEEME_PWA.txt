@@ -1,0 +1,25 @@
+LISTA DE ASISTENCIAS — VERSIÓN PWA
+
+Esta carpeta está preparada para convertirse en una PWA (aplicación web instalable).
+
+ARCHIVOS
+- index.html: el programa.
+- manifest.json: nombre, iconos y ajustes de instalación.
+- service-worker.js: guarda los archivos básicos para que la aplicación abra sin conexión.
+- icons/: iconos de 192 y 512 píxeles.
+
+IMPORTANTE
+1. No abras solo index.html desde el explorador de archivos si quieres instalarla como PWA.
+2. Publica TODOS estos archivos en un sitio con HTTPS. Una opción sencilla es GitHub Pages.
+3. Abre la dirección publicada en Chrome en tu Android.
+4. En Chrome, abre el menú ⋮ y elige “Instalar aplicación” o “Añadir a pantalla de inicio” (el texto puede variar).
+5. Abre la aplicación instalada una vez con internet. Después podrás probar el modo sin conexión.
+
+DATOS Y COPIAS DE SEGURIDAD
+- Los registros siguen guardándose en localStorage de ese navegador/aplicación en ese dispositivo.
+- No se sincronizan entre celulares.
+- Antes de borrar datos del navegador o desinstalar la app, usa Configuración > Exportar respaldo (.json).
+- El modo sin conexión almacena los archivos de la aplicación; no sustituye la copia de seguridad de los datos.
+
+NOTA
+Corregí el cálculo de la fecha para usar la fecha local del dispositivo y evitar desfases por zona horaria.
