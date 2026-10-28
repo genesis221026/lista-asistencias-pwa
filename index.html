@@ -1,301 +1,95 @@
 <!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b67d1">
-<meta name="description" content="Registra y consulta asistencias por grupos, incluso sin conexión después de instalar la aplicación.">
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./icons/icon-192.png" type="image/png">
-<link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Lista de Asistencias</title>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#260711"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icons/icon-192.png"><title>Control de Asistencia</title>
 <style>
-:root{--blue:#1268d5;--blue2:#0b58b8;--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--line:#e4e7ec;--green:#19a463;--yellow:#e9ad16;--red:#e53935}
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-button,input,textarea,select{font:inherit} button{cursor:pointer}
-.app{max-width:1100px;margin:auto;min-height:100vh}
-header{position:sticky;top:0;z-index:10;background:var(--blue);color:#fff;padding:15px 18px;box-shadow:0 2px 10px #0002}
-.head{display:flex;align-items:center;gap:12px}.head h1{font-size:22px;margin:0;flex:1}.iconbtn{border:0;background:#ffffff22;color:#fff;border-radius:12px;width:42px;height:42px;font-size:21px}
-main{padding:14px}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px #0000000c;margin-bottom:12px}
-.tabs button{border:0;background:#fff;padding:13px 6px;color:#555;font-weight:600}.tabs button.active{color:var(--blue);box-shadow:inset 0 -3px var(--blue)}
-.search{position:relative;margin-bottom:10px}.search input{width:100%;padding:14px 16px 14px 45px;border:0;border-radius:14px;background:#eef0f4;outline:0}
-.search span{position:absolute;left:15px;top:11px;font-size:22px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.field input,.field select{width:100%;border:0;outline:0;background:transparent;font-weight:600}
-.summary{background:#fff;border-radius:12px;padding:10px 13px;margin:10px 0;color:#475467;font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 2px 10px #0000000a}
-.tablewrap{overflow-x:auto}.table{min-width:720px;width:100%;border-collapse:collapse}.table th{background:#f3f4f6;padding:11px;text-align:left;font-size:12px}.table td{border-top:1px solid var(--line);padding:9px}.name{font-weight:600}.small{font-size:12px;color:var(--muted)}
-.check{width:25px;height:25px;accent-color:var(--green)}.status{display:inline-flex;padding:7px 12px;border-radius:20px;color:#fff;font-size:12px;font-weight:700}.present{background:var(--green)}.just{background:var(--yellow)}.absent{background:var(--red)}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:700}.primary{background:var(--blue);color:#fff}.secondary{background:#eaf2ff;color:var(--blue)}.danger{background:#fff0f0;color:#c62828}.gray{background:#eef0f4;color:#344054}
-.empty{padding:30px;text-align:center;color:var(--muted)}
-.bottom{position:sticky;bottom:0;background:#ffffffee;padding:10px 0;backdrop-filter:blur(8px)}
-.modal{position:fixed;inset:0;background:#0007;display:none;align-items:flex-end;z-index:50}.modal.open{display:flex}.sheet{background:#fff;width:100%;max-height:90vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px;max-width:700px;margin:auto}.sheet h2{margin-top:0}.close{float:right;border:0;background:#eee;border-radius:50%;width:36px;height:36px}
-textarea{width:100%;min-height:160px;border:1px solid var(--line);border-radius:12px;padding:12px;resize:vertical}
-.history-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}.metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}.metric b{font-size:24px;display:block}.metric.green b{color:var(--green)}.metric.yellow b{color:var(--yellow)}.metric.red b{color:var(--red)}
-.months{display:flex;gap:7px;overflow:auto;margin-bottom:10px}.months button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:20px;padding:8px 12px}.months button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-@media(max-width:650px){main{padding:10px}.grid2{grid-template-columns:1fr}.head h1{font-size:19px}.history-grid{grid-template-columns:1fr 1fr 1fr}.metric{padding:10px}.metric b{font-size:19px}.table{min-width:680px}}
-</style>
-</head>
-<body>
-<div class="app">
-<header><div class="head"><button class="iconbtn" onclick="showHome()">⌂</button><h1>Lista de Asistencias</h1><button class="iconbtn" onclick="openSettings()">⚙</button></div></header>
-<main id="app"></main>
-</div>
+:root{--pink:#f4dce5;--pale:#fff7fa;--berry:#c34370;--dark:#8f3154;--ink:#482638;--muted:#80556a;--line:#ead8e1;--green:#d8f0e0;--gink:#216a3b;--yellow:#fff0c7;--yink:#795500;--red:#f9dede;--rink:#9b2929}*{box-sizing:border-box}body{margin:0;background:#fff9fb;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #e7a6bf;outline-offset:2px}.app{max-width:1000px;margin:auto;padding:18px 14px 60px}header,.brand,.row,.toolbar,.heading,.actions,.banner{display:flex;align-items:center;gap:10px}header,.heading{justify-content:space-between}header{margin-bottom:20px}.brand{gap:11px}.logo{width:43px;height:43px;border-radius:14px;background:var(--pink);display:grid;place-items:center;color:var(--berry);font-size:24px}h1{font-size:clamp(22px,4vw,30px);margin:0;letter-spacing:-.5px}.sub,.muted{color:var(--muted)}.sub{font-size:13px;margin-top:3px}.btn,.icon{border:0;border-radius:11px;padding:9px 13px;font-weight:650;display:inline-flex;align-items:center;justify-content:center;gap:6px}.primary{background:var(--berry);color:white}.soft{background:var(--pink);color:var(--dark)}.outline,.icon{background:white;border:1px solid var(--line);color:var(--dark)}.danger{background:var(--red);color:var(--rink)}.small{font-size:12px;padding:7px 9px}.view{display:none}.view.active{display:block}.hero{background:linear-gradient(120deg,#f7dce7,#fff0f5);border:1px solid #f0d0dd;border-radius:20px;padding:21px;display:flex;align-items:center;justify-content:space-between;margin-bottom:23px}.hero h2{margin:0 0 7px}.hero p{margin:0;color:var(--muted);line-height:1.5}.flower{font-size:34px;background:#ffffff9c;padding:13px;border-radius:16px}.heading{margin:20px 0 12px}.heading h2,.heading h3{margin:0;font-size:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card,.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 5px 18px #8035540d}.card{border-top:4px solid var(--accent,var(--berry))}.group-top{display:flex;align-items:center;gap:10px;cursor:pointer}.avatar{width:43px;height:43px;flex-shrink:0;border-radius:13px;background:var(--pink);color:var(--berry);display:grid;place-items:center;font-weight:800}.group-name{font-weight:750}.meta{font-size:12px;color:var(--muted);margin-top:4px}.spacer{flex:1}.group-foot{display:flex;justify-content:space-between;margin-top:12px;gap:6px}.pill{background:var(--pale);color:var(--dark);border-radius:30px;padding:5px 9px;font-size:12px}.empty{border:1px dashed #ddb9c9;border-radius:15px;padding:25px;text-align:center;color:var(--muted);background:white}.back{display:flex;align-items:center;gap:10px;margin-bottom:16px}.back h2{margin:0;font-size:22px}.banner{background:white;border:1px solid var(--line);border-top:5px solid var(--accent,var(--berry));border-radius:18px;padding:15px;box-shadow:0 5px 18px #8035540d}.banner .avatar{width:55px;height:55px}.banner h3{margin:0 0 5px}.actions{display:flex;gap:8px;flex-wrap:wrap}.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0 22px}.tile{display:flex;align-items:center;text-align:left;gap:10px;padding:13px;background:white;border:1px solid var(--line);border-radius:14px;color:var(--ink)}.tile b{display:block;font-size:14px}.tile small{display:block;color:var(--muted);margin-top:3px}.tile-icon{background:var(--pink);color:var(--berry);padding:9px;border-radius:10px;font-size:19px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:13px;color:var(--muted);font-weight:700}input,select,textarea{width:100%;min-width:0;padding:10px 11px;border:1px solid #e4cbd6;border-radius:10px;background:white;color:var(--ink)}textarea{min-height:130px;resize:vertical}.toolbar{flex-wrap:wrap;margin:12px 0}.search{flex:1;min-width:160px}.member-list{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:white}.mrow{display:grid;grid-template-columns:minmax(105px,1.5fr) repeat(3,minmax(48px,.55fr));gap:4px;align-items:center;padding:8px 9px;border-bottom:1px solid #f0e3e9}.mrow:last-child{border-bottom:0}.mrow:nth-child(even){background:#fff9fb}.mhead{background:#f5dce6!important;color:var(--dark);font-size:11px;font-weight:750}.mname{font-size:13px;overflow-wrap:anywhere}.status{text-align:center}.sbtn{width:29px;height:29px;border:1px solid #e8d5de;border-radius:8px;background:white;color:#c6aab7;font-weight:800}.sbtn.on.present{background:var(--green);color:var(--gink);border-color:#a9d9b8}.sbtn.on.justified{background:var(--yellow);color:var(--yink);border-color:#f0d98f}.sbtn.on.absent{background:var(--red);color:var(--rink);border-color:#efb8b8}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.sum{background:white;border:1px solid var(--line);border-radius:11px;padding:11px}.sum span{font-size:12px;color:var(--muted)}.sum strong{display:block;font-size:23px;margin-top:3px}.present strong{color:var(--gink)}.justified strong{color:var(--yink)}.absent strong{color:var(--rink)}.bottom{display:flex;gap:9px;margin-top:12px}.bottom>*{flex:1}.month{border:1px solid var(--line);border-radius:14px;background:white;overflow:hidden;margin:12px 0}.month-head{background:#f9e7ee;padding:13px;display:flex;justify-content:space-between;align-items:center;gap:10px}.month-head h3{margin:0;text-transform:capitalize;font-size:16px}.month-head p{margin:4px 0 0;font-size:12px;color:var(--muted)}.record{display:flex;align-items:center;gap:10px;padding:11px 13px;border-top:1px solid #f0e3e9}.datechip{background:var(--pink);border-radius:9px;padding:6px;min-width:45px;text-align:center;color:var(--dark)}.datechip strong{display:block;font-size:18px}.datechip small{font-size:10px;text-transform:uppercase}.rinfo{flex:1;min-width:0}.rinfo b{display:block;font-size:13px}.rinfo small{color:var(--muted);font-size:12px}.table-scroll{overflow:auto;border:1px solid var(--line);border-radius:11px;background:white}.matrix{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}.matrix th,.matrix td{padding:9px 10px;border:1px solid #f0e3e9;text-align:center}.matrix th{background:#f5dce6;color:var(--dark)}.matrix th:first-child,.matrix td:first-child{text-align:left;position:sticky;left:0;background:#fff9fb}.matrix th:first-child{background:#f5dce6}.dot{display:inline-block;width:11px;height:11px;border-radius:50%}.dot.present{background:#3b9b61}.dot.justified{background:#e8ae36}.dot.absent{background:#d84a55}.modalback{display:none;position:fixed;inset:0;background:#25111d88;align-items:center;justify-content:center;padding:16px;z-index:10}.modalback.open{display:flex}.modal{width:min(480px,100%);max-height:90vh;overflow:auto;background:#fff9fb;border-radius:18px;padding:20px;box-shadow:0 20px 60px #0003}.modal h2{margin:0 0 16px;font-size:21px}.modalactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:11px 15px;border-radius:11px;z-index:20;max-width:90vw;text-align:center;font-size:14px}.note{text-align:center;font-size:12px;color:#a17b8d;margin:22px 0}
+@media(max-width:580px){.app{padding:14px 11px}.hero{padding:16px}.hero h2{font-size:19px}.tiles{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}.mrow{grid-template-columns:minmax(95px,1.4fr) repeat(3,minmax(44px,.55fr));padding:7px 5px;gap:2px}.mname{font-size:12px}.mhead{font-size:10px}.sbtn{width:27px;height:27px}.banner{flex-wrap:wrap}.banner .actions{width:100%}.bottom{flex-direction:column}.month-head{align-items:flex-start;flex-direction:column}}
 
-<div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+/* Tema rojo sangre y granate oscuro; sin recursos externos, funciona sin internet */
+:root{
+ --pink:#45101f;--pale:#2a0a14;--berry:#a3163e;--dark:#f0c5d1;
+ --ink:#f8eaf0;--muted:#c3a0ad;--line:#542033;
+ --green:#173e2b;--gink:#9de0b4;--yellow:#49350d;--yink:#f5d477;
+ --red:#4b1722;--rink:#ffb3bf;color-scheme:dark
+}
+body{background:#16050b;color:var(--ink)}
+button,input,select,textarea{font:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #e36b8c;outline-offset:2px}
+.logo{background:#45101f;color:#ff9db6}
+.sub,.muted{color:var(--muted)}
+.primary{background:#a3163e;color:#fff}
+.soft{background:#45101f;color:#ffc2d2}
+.outline,.icon{background:#2b0a14;border-color:#673047;color:#f4c5d2}
+.danger{background:#4b1722;color:#ffb3bf}
+.hero{background:linear-gradient(120deg,#3b0b19,#260711);border-color:#642039}
+.hero p{color:#d3a9b7}
+.flower{background:#501025;color:#ffb6c8}
+.card,.panel,.banner,.tile,.member-list,.month,.table-scroll,.empty{background:#260a13;border-color:#542033;box-shadow:0 5px 18px #0003}
+.card{border-top-color:var(--accent,var(--berry))}
+.avatar,.tile-icon{background:#45101f;color:#ff9db6}
+.pill{background:#45101f;color:#f3c0cf}
+.empty{border-color:#754055;color:#d1a8b6}
+input,select,textarea{background:#1d070f;border-color:#633047;color:#fff0f5}
+input::placeholder,textarea::placeholder{color:#a98391}
+.mrow{border-bottom-color:#47202e}
+.mrow:nth-child(even){background:#2d0c17}
+.mhead{background:#4b1023!important;color:#ffe1e9}
+.sbtn{background:#210710;border-color:#603044;color:#a77d8d}
+.sbtn.on.present{background:#173e2b;color:#9de0b4;border-color:#327b50}
+.sbtn.on.justified{background:#49350d;color:#f5d477;border-color:#8e6a1a}
+.sbtn.on.absent{background:#4b1722;color:#ffb3bf;border-color:#96394a}
+.sum{background:#2b0a14;border-color:#542033}
+.present strong{color:#9de0b4}
+.justified strong{color:#f5d477}
+.absent strong{color:#ffb3bf}
+.month-head{background:#3c0d1c}
+.record{border-top-color:#47202e}
+.datechip{background:#45101f;color:#ffc2d2}
+.matrix th,.matrix td{border-color:#47202e}
+.matrix th{background:#4b1023;color:#ffe1e9}
+.matrix th:first-child,.matrix td:first-child{background:#260a13}
+.matrix th:first-child{background:#4b1023}
+.modalback{background:#080207cc}
+.modal{background:#210710;border:1px solid #542033}
+.toast{background:#f7e7ed;color:#350815}
+.note{color:#b18b9a}
+@media(max-width:580px){
+ .app{padding:12px 9px 36px}
+ header{align-items:flex-start}
+ h1{font-size:21px}
+ .hero{gap:10px}
+ .flower{font-size:27px;padding:9px}
+ .mrow{grid-template-columns:minmax(90px,1.35fr) repeat(3,minmax(40px,.55fr));padding:7px 4px}
+ .sbtn{width:27px;height:27px}
+ .matrix{font-size:11px}
+ .matrix th,.matrix td{padding:8px}
+}
 
+</style></head><body><div class="app">
+<header><div class="brand"><div class="logo">♡</div><div><h1>Control de Asistencia</h1><div class="sub">Espiritu · Danza · Tecnica</div></div></div></header>
+<main>
+<section class="view active" id="home"><div class="hero"><div><h2>Academia de Danza Filadelfia</h2><p>Creada con propósito, amada sin condición.</p></div><div class="flower">🌷</div></div><div class="heading"><h2>Mis grupos</h2><div class="actions"><button class="btn outline small" id="backup">⇩ Copia</button><button class="btn primary small" id="addGroup">＋ Crear grupo</button></div></div><div class="grid" id="groups"></div><div class="note">La hija del rey está vestida de esplendor y gracia; su belleza proviene de lo interior. -Salmos 45:13</div></section>
+<section class="view" id="group"><div class="back"><button class="icon" data-back="home">←</button><h2>Datos del grupo</h2></div><div id="banner"></div><div class="tiles"><button class="tile" id="goAttendance"><span class="tile-icon">✓</span><span><b>Registrar asistencia</b><small>Fecha, actividad y estados</small></span></button><button class="tile" id="goMembers"><span class="tile-icon">♧</span><span><b>Lista de miembros</b><small>Agregar, editar o eliminar</small></span></button></div><div class="heading"><h3>Registro de asistencia</h3><span class="pill" id="count">0 registros</span></div><button class="btn soft small" id="goHistory">▦ Ver historial mensual</button><div id="recent"></div></section>
+<section class="view" id="members"><div class="back"><button class="icon" data-back="group">←</button><h2>Lista de miembros</h2></div><div class="toolbar"><input class="search" id="memberSearch" placeholder="Buscar integrante..."><button class="btn primary small" id="addMember">＋ Agregar</button></div><div id="memberList"></div></section>
+<section class="view" id="attendance"><div class="back"><button class="icon" data-back="group">←</button><h2>Registro de asistencia</h2></div><div class="panel"><div class="formgrid"><div class="field"><label for="date">Fecha</label><input type="date" id="date"></div><div class="field"><label for="activity">Actividad</label><input id="activity" placeholder="Ej. Ensayo, ministracion"></div></div></div><div class="heading"><h3>Marcar asistencia</h3><span class="pill" id="progress">0/0 marcados</span></div><div class="toolbar"><input class="search" id="attendanceSearch" placeholder="Buscar por nombre..."><button class="btn outline small" id="allPresent">Todas presentes</button></div><div id="attendanceList"></div><div class="panel"><div class="heading" style="margin-top:0"><h3>Resumen de asistencia</h3></div><div class="summary" id="summary"></div><div class="bottom"><button class="btn primary" id="saveAttendance">✓ Guardar asistencia</button><button class="btn outline" id="discard">Descartar</button></div></div></section>
+<section class="view" id="history"><div class="back"><button class="icon" data-back="group">←</button><h2>Historial mensual</h2></div><div class="toolbar"><div class="field" style="flex:1;min-width:150px"><label for="monthFilter">Filtrar mes</label><input type="month" id="monthFilter"></div><button class="btn outline small" id="allMonths">Ver todos</button></div><div id="historyList"></div></section>
+<section class="view" id="matrixView"><div class="back"><button class="icon" data-back="history">←</button><h2 id="matrixTitle">Tabla mensual</h2></div><div class="toolbar"><button class="btn outline small" id="toggleSessions">Ver lista de jornadas</button><button class="btn primary small" id="exportMonth">⇩ Exportar a Excel</button></div><div id="matrixContent"></div><div id="sessions" style="display:none"></div></section>
+</main></div>
+<div class="modalback" id="modalback"><div class="modal" role="dialog" aria-modal="true"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalactions" id="modalActions"></div></div></div><div class="toast" id="toast" hidden></div>
 <script>
-const KEY="lista_asistencias_v1";
-const GROUPS=["Grupo A","Grupo B","Grupo C","Grupo D"];
-let db=load();
-let group=0, screen="attendance", monthKey=localDate().slice(0,7);
-
-function load(){
-  try{
-    const x=JSON.parse(localStorage.getItem(KEY)||"null");
-    if(x&&x.groups&&x.records)return x;
-  }catch(e){}
-  return {groups:GROUPS.map(name=>({name,people:[]})),records:[]};
-}
-function save(){localStorage.setItem(KEY,JSON.stringify(db));}
-function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function localDate(){const d=new Date();const y=d.getFullYear();const m=String(d.getMonth()+1).padStart(2,"0");const day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`}
-function today(){return localDate()}
-function fmtDate(v){if(!v)return"";let [y,m,d]=v.split("-");return `${d}/${m}/${y}`}
-function ym(v){return v.slice(0,7)}
-function monthName(k){let [y,m]=k.split("-");return new Date(+y,+m-1,1).toLocaleDateString("es-ES",{month:"long",year:"numeric"})}
-function currentPeople(){return db.groups[group].people}
-function recordFor(pid,date){return db.records.find(r=>r.group===group&&r.personId===pid&&r.date===date)}
-function statusOf(pid,date){
-  const r=recordFor(pid,date);
-  if(!r)return "absent";
-  return r.status||"absent";
-}
-function ensureRecord(pid,date,activity,status,justification=""){
-  let r=recordFor(pid,date);
-  if(!r){r={group,personId:pid,date,activity,status,justification};db.records.push(r)}
-  else{r.activity=activity;r.status=status;r.justification=justification}
-}
-function render(){
-  if(screen==="history") return renderHistory();
-  if(screen==="people") return renderPeople();
-  renderAttendance();
-}
-function headerTabs(){
- return `<div class="tabs">${GROUPS.map((g,i)=>`<button class="${i===group?'active':''}" onclick="selectGroup(${i})">${g}</button>`).join("")}</div>`;
-}
-function renderAttendance(){
- const date=document.getElementById("dateInput")?.value||today();
- const activity=document.getElementById("activityInput")?.value||"";
- const search=document.getElementById("searchInput")?.value||"";
- const people=currentPeople().filter(p=>p.name.toLowerCase().includes(search.toLowerCase()));
- const regs=currentPeople().map(p=>recordFor(p.id,date)).filter(Boolean);
- const present=regs.filter(r=>r.status==="present").length, just=regs.filter(r=>r.status==="just").length;
- document.getElementById("app").innerHTML=`
- ${headerTabs()}
- <div class="actions"><button class="btn secondary" onclick="screen='people';render()">👥 Administrar personas</button><button class="btn secondary" onclick="screen='history';render()">📊 Historial</button></div>
- <div class="search"><span>⌕</span><input id="searchInput" value="${esc(search)}" placeholder="Buscar por nombre..." oninput="renderAttendanceKeep()"></div>
- <div class="grid2">
-  <div class="field"><label>Fecha</label><input id="dateInput" type="date" value="${date}" onchange="renderAttendanceKeep()"></div>
-  <div class="field"><label>Actividad</label><input id="activityInput" value="${esc(activity)}" placeholder="Ej. Laboratorio de Química" onchange="renderAttendanceKeep()"></div>
- </div>
- <div class="summary">${currentPeople().length} personas • ${present} presentes • ${regs.filter(r=>r.status==='absent').length} faltas • ${just} justificadas</div>
- <div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Nº</th><th>NOMBRE</th><th>ASISTENCIA</th><th>JUSTIFICACIÓN</th><th>ESTADO</th></tr></thead><tbody>
- ${people.length?people.map((p,i)=>row(p,i,date,activity)).join(""):`<tr><td colspan="5"><div class="empty">No hay personas. Agrega nombres desde “Administrar personas”.</div></td></tr>`}
- </tbody></table></div></div>
- <div class="bottom"><button class="btn primary" style="width:100%;font-size:16px" onclick="saveCurrent('${date}')">💾 GUARDAR</button></div>`;
-}
-function renderAttendanceKeep(){renderAttendance()}
-function row(p,i,date,activity){
- const r=recordFor(p.id,date); const st=r?.status||"absent"; const j=r?.justification||"";
- return `<tr><td class="small">${String(i+1).padStart(3,"0")}</td><td class="name">${esc(p.name)}</td>
- <td><input class="check" type="checkbox" ${st==="present"?"checked":""} onchange="toggleStatus(${p.id},'present','${date}','${esc(activity)}')"></td>
- <td><input style="width:150px;padding:8px;border:1px solid var(--line);border-radius:8px" value="${esc(j)}" placeholder="Motivo..." onchange="setJust(${p.id},this.value,'${date}','${esc(activity)}')"></td>
- <td><span class="status ${st==="present"?"present":st==="just"?"just":"absent"}">${st==="present"?"Presente":st==="just"?"Justificado":"Falta"}</span></td></tr>`;
-}
-function selectGroup(i){group=i;screen="attendance";render()}
-function toggleStatus(pid,type,date,activity){
- let r=recordFor(pid,date);
- if(!r){ensureRecord(pid,date,activity,type);save();return render()}
- if(type==="present"){r.status=r.status==="present"?"absent":"present"; if(r.status!=="just")r.justification=""}
- save();render();
-}
-function setJust(pid,val,date,activity){
- let r=recordFor(pid,date);
- if(!r){ensureRecord(pid,date,activity,val.trim()?"just":"absent",val)}
- else{r.justification=val;r.status=val.trim()?"just":"absent"}
- save();render();
-}
-function saveCurrent(date){save();alert("Registro guardado correctamente.");}
-function renderPeople(){
- const g=db.groups[group];
- document.getElementById("app").innerHTML=`
- <div class="actions"><button class="btn gray" onclick="screen='attendance';render()">← Volver</button><h2 style="margin:8px 0">${esc(g.name)} — Personas</h2></div>
- <div class="card" style="padding:14px"><p class="small">Puedes agregar personas una por una o pegar una lista de nombres, uno por línea. Esto permite cargar 150, 200 o más personas rápidamente.</p>
- <div class="actions"><button class="btn primary" onclick="openAddPerson()">➕ Agregar persona</button><button class="btn secondary" onclick="openBulk()">📋 Cargar muchos nombres</button></div></div>
- <div class="search" style="margin-top:12px"><span>⌕</span><input id="peopleSearch" placeholder="Buscar persona..." oninput="renderPeopleList()"></div>
- <div id="peopleList" class="card"></div>`;
- renderPeopleList();
-}
-function renderPeopleList(){
- const q=document.getElementById("peopleSearch")?.value?.toLowerCase()||"";
- const ps=currentPeople().filter(p=>p.name.toLowerCase().includes(q));
- document.getElementById("peopleList").innerHTML=ps.length?ps.map(p=>`<div style="display:flex;align-items:center;padding:12px;border-bottom:1px solid var(--line)"><div style="flex:1"><b>${esc(p.name)}</b><div class="small">ID ${p.id}</div></div><button class="btn secondary" onclick="editPerson(${p.id})">✏️</button><button class="btn danger" onclick="deletePerson(${p.id})">🗑️</button></div>`).join(""):`<div class="empty">No hay personas.</div>`;
-}
-function openAddPerson(){openModal(`<button class="close" onclick="closeModal()">×</button><h2>Agregar persona</h2><div class="field"><label>Nombre completo</label><input id="newPerson" autofocus></div><div class="actions"><button class="btn primary" onclick="addPerson()">Guardar</button></div>`)}
-function addPerson(){
- const n=document.getElementById("newPerson").value.trim(); if(!n)return alert("Escribe un nombre.");
- const ps=currentPeople(); const id=ps.length?Math.max(...ps.map(p=>p.id))+1:1; ps.push({id,name:n}); save();closeModal();renderPeople();
-}
-function editPerson(id){
- const p=currentPeople().find(x=>x.id===id); if(!p)return;
- openModal(`<button class="close" onclick="closeModal()">×</button><h2>Editar persona</h2><div class="field"><label>Nombre completo</label><input id="editName" value="${esc(p.name)}"></div><div class="actions"><button class="btn primary" onclick="updatePerson(${id})">Guardar cambios</button></div>`);
-}
-function updatePerson(id){let n=document.getElementById("editName").value.trim();if(!n)return;let p=currentPeople().find(x=>x.id===id);p.name=n;save();closeModal();renderPeople()}
-function deletePerson(id){if(!confirm("¿Eliminar esta persona? Sus registros históricos también se conservarán, pero la persona dejará de aparecer en el grupo."))return;db.groups[group].people=db.groups[group].people.filter(p=>p.id!==id);save();renderPeople()}
-function openBulk(){openModal(`<button class="close" onclick="closeModal()">×</button><h2>Cargar muchos nombres</h2><p class="small">Pega un nombre por línea. Los nombres se agregarán al ${esc(GROUPS[group])}.</p><textarea id="bulkNames" placeholder="Juan Pérez&#10;María López&#10;Carlos García"></textarea><div class="actions"><button class="btn primary" onclick="bulkAdd()">Agregar nombres</button></div>`)}
-function bulkAdd(){
- const names=document.getElementById("bulkNames").value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
- if(!names.length)return;
- let ps=currentPeople(), next=ps.length?Math.max(...ps.map(p=>p.id))+1:1;
- const existing=new Set(ps.map(p=>p.name.toLowerCase()));
- for(const n of names){if(!existing.has(n.toLowerCase())){ps.push({id:next++,name:n});existing.add(n.toLowerCase())}}
- save();closeModal();renderPeople();alert(`${names.length} nombres procesados.`);
-}
-function renderHistory(){
- const allGroups=GROUPS.map((g,i)=>`<button class="btn ${i===group?'primary':'gray'}" onclick="group=${i};renderHistory()">${g}</button>`).join("");
- const people=currentPeople();
- const monthRecords=db.records.filter(r=>r.group===group&&ym(r.date)===monthKey);
- const stats=people.map(p=>{const rs=monthRecords.filter(r=>r.personId===p.id);return {p,a:rs.filter(r=>r.status==="present").length,j:rs.filter(r=>r.status==="just").length,f:rs.filter(r=>r.status==="absent").length}});
- const totals=stats.reduce((x,s)=>({a:x.a+s.a,j:x.j+s.j,f:x.f+s.f}),{a:0,j:0,f:0});
- document.getElementById("app").innerHTML=`
- <div class="actions"><button class="btn gray" onclick="screen='attendance';render()">← Volver</button><h2 style="margin:8px 0">📊 Historial</h2></div>
- <div class="actions">${allGroups}</div>
- <div class="months">${availableMonths().map(m=>`<button class="${m===monthKey?'active':''}" onclick="monthKey='${m}';renderHistory()">${monthName(m)}</button>`).join("")}</div>
- <div class="history-grid"><div class="metric green"><b>${totals.a}</b>Asistencias</div><div class="metric yellow"><b>${totals.j}</b>Justificadas</div><div class="metric red"><b>${totals.f}</b>Faltas</div></div>
- <div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Nº</th><th>PERSONA</th><th>ASISTENCIAS</th><th>JUSTIFICADAS</th><th>FALTAS</th><th>TOTAL</th></tr></thead><tbody>
- ${stats.length?stats.map((s,i)=>`<tr><td>${String(i+1).padStart(3,"0")}</td><td class="name">${esc(s.p.name)}</td><td>${s.a}</td><td>${s.j}</td><td>${s.f}</td><td>${s.a+s.j+s.f}</td></tr>`).join(""):`<tr><td colspan="6"><div class="empty">No hay personas en este grupo.</div></td></tr>`}
- </tbody></table></div></div>`;
-}
-function availableMonths(){
- const set=new Set([monthKey,...db.records.filter(r=>r.group===group).map(r=>ym(r.date))]);
- return [...set].sort().reverse();
-}
-function openSettings(){
- openModal(`<button class="close" onclick="closeModal()">×</button><h2>Configuración</h2>
- <div class="actions">
-  <button class="btn secondary" onclick="exportExcel()">📊 Exportar para Excel (.csv)</button>
-  <button class="btn secondary" onclick="document.getElementById('excelFile').click()">📥 Importar desde Excel (.csv)</button>
-  <input id="excelFile" type="file" accept=".csv,.txt" style="display:none" onchange="importExcel(this)">
- </div>
- <div class="actions">
-  <button class="btn secondary" onclick="exportData()">⬇️ Exportar respaldo completo (.json)</button>
-  <button class="btn secondary" onclick="document.getElementById('importFile').click()">⬆️ Importar respaldo (.json)</button>
-  <input id="importFile" type="file" accept=".json" style="display:none" onchange="importData(this)">
- </div>
- <p class="small">Excel: exporta personas y asistencias a un archivo CSV que puedes abrir con Excel. Si lo editas, guárdalo como CSV separado por punto y coma para volver a importarlo. El respaldo JSON conserva todos los datos originales.</p>
- <button class="btn danger" onclick="resetAll()">⚠️ Borrar todos los datos</button>`);
-}
-function exportData(){
- const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}), a=document.createElement("a");
- a.href=URL.createObjectURL(blob);a.download="respaldo_lista_asistencias.json";a.click();URL.revokeObjectURL(a.href);
-}
-function importData(input){
- const file=input.files[0];if(!file)return;const reader=new FileReader();
- reader.onload=()=>{try{const x=JSON.parse(reader.result);if(!x.groups||!x.records)throw Error();db=x;save();closeModal();render();alert("Respaldo importado correctamente.")}catch(e){alert("El archivo no es válido.")}};
- reader.readAsText(file);
-}
-
-function csvCell(value){
- const s=String(value??"");
- return '"' + s.replace(/"/g,'""') + '"';
-}
-function exportExcel(){
- const rows=[["TIPO","GRUPO_NUMERO","GRUPO","PERSONA_ID","NOMBRE","FECHA","ACTIVIDAD","ESTADO","JUSTIFICACION"]];
- db.groups.forEach((g,gi)=>{
-  g.people.forEach(p=>rows.push(["PERSONA",gi,g.name,p.id,p.name,"","","",""]));
- });
- db.records.forEach(r=>{
-  const g=db.groups[r.group];
-  const p=g?.people.find(x=>x.id===r.personId);
-  rows.push(["ASISTENCIA",r.group,g?.name||"",r.personId,p?.name||"",r.date,r.activity||"",r.status==="present"?"PRESENTE":r.status==="just"?"JUSTIFICADA":"FALTA",r.justification||""]);
- });
- const csv="\uFEFF"+rows.map(row=>row.map(csvCell).join(";")).join("\r\n");
- const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
- const url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download="lista_asistencias_excel.csv";a.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-function parseCSV(text){
- text=text.replace(/^\uFEFF/,"");
- const rows=[];let row=[],cell="",quoted=false;
- for(let i=0;i<text.length;i++){
-  const c=text[i];
-  if(quoted){
-   if(c==='"'&&text[i+1]==='"'){cell+='"';i++}
-   else if(c==='"')quoted=false;
-   else cell+=c;
-  }else{
-   if(c==='"')quoted=true;
-   else if(c===";"){row.push(cell);cell=""}
-   else if(c==="\n"){row.push(cell.replace(/\r$/,""));rows.push(row);row=[];cell=""}
-   else cell+=c;
-  }
- }
- if(cell.length||row.length){row.push(cell.replace(/\r$/,""));rows.push(row)}
- return rows;
-}
-function importExcel(input){
- const file=input.files[0];if(!file)return;
- const reader=new FileReader();
- reader.onload=()=>{
-  try{
-   const rows=parseCSV(reader.result);
-   if(rows.length<2)throw Error("El archivo no contiene datos.");
-   const head=rows[0].map(x=>x.trim().toUpperCase());
-   const col=name=>head.indexOf(name);
-   if(col("TIPO")<0||col("GRUPO_NUMERO")<0||col("PERSONA_ID")<0)throw Error("No encuentro las columnas necesarias. Usa un CSV exportado por este sistema.");
-   if(!confirm("Importar este archivo reemplazará los datos actuales. Para protegerlos, exporta primero un respaldo. ¿Deseas continuar?")){input.value="";return}
-   const groups=GROUPS.map((name,i)=>({name,people:[]}));
-   const records=[];
-   for(const row of rows.slice(1)){
-    if(!row.some(v=>String(v||"").trim()))continue;
-    const get=name=>{const i=col(name);return i<0?"":String(row[i]??"").trim()};
-    const type=get("TIPO").toUpperCase(), gi=Number(get("GRUPO_NUMERO")), pid=Number(get("PERSONA_ID"));
-    if(!Number.isInteger(gi)||gi<0||gi>3||!Number.isFinite(pid))continue;
-    const groupName=get("GRUPO")||GROUPS[gi];
-    groups[gi].name=groupName;
-    if(type==="PERSONA"){
-     const name=get("NOMBRE");if(name&&!groups[gi].people.some(p=>p.id===pid))groups[gi].people.push({id:pid,name});
-    }else if(type==="ASISTENCIA"){
-     const date=get("FECHA");if(!date)continue;
-     const raw=get("ESTADO").toUpperCase();
-     const status=raw==="PRESENTE"||raw==="PRESENT"?"present":raw==="JUSTIFICADA"||raw==="JUSTIFICADO"||raw==="JUST"?"just":"absent";
-     records.push({group:gi,personId:pid,date,activity:get("ACTIVIDAD"),status,justification:get("JUSTIFICACION")});
-    }
-   }
-   db={groups,records};save();closeModal();screen="attendance";render();
-   alert("Datos importados desde Excel correctamente.");
-  }catch(e){alert("No se pudo importar el archivo: "+e.message)}
-  input.value="";
- };
- reader.readAsText(file,"UTF-8");
-}
-
-function resetAll(){if(confirm("¿Seguro que quieres borrar TODOS los grupos, personas y registros?")){db={groups:GROUPS.map(name=>({name,people:[]})),records:[]};save();closeModal();render()}}
-function openModal(html){document.getElementById("sheet").innerHTML=html;document.getElementById("modal").classList.add("open")}
-function closeModal(){document.getElementById("modal").classList.remove("open")}
-function showHome(){screen="attendance";render()}
-render();
-
-// PWA: guardar los archivos básicos para que la aplicación abra sin conexión.
-if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch(err => {
-      console.warn("No se pudo registrar el modo sin conexión:", err);
-    });
-  });
-}
-</script>
-</body>
-</html>
+(()=>{'use strict';const KEY='controlAsistenciaRosa_v1',palette=['#a3163e','#9a5b12','#315f9b','#67449b','#28704f','#9b3459'];const names={present:'Presente',justified:'Justificada',absent:'Falta'},symbols={present:'✓',justified:'J',absent:'×'};let data=read(),gid=null,draft={},month=null,timer;
+function read(){try{let x=JSON.parse(localStorage.getItem(KEY));if(x&&Array.isArray(x.groups))return x}catch(e){}return{groups:[]}}function persist(){try{localStorage.setItem(KEY,JSON.stringify(data));return true}catch(e){toast('No se pudieron guardar los datos. Exporta una copia de seguridad.');return false}}function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function g(){return data.groups.find(x=>x.id===gid)}function iso(){let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}function mk(d){return(d||'').slice(0,7)}function ml(k){if(!k)return'Mes sin fecha';let[y,m]=k.split('-').map(Number);return new Date(y,m-1,1).toLocaleDateString('es-BO',{month:'long',year:'numeric'})}function fd(d){return d?new Date(d+'T12:00:00').toLocaleDateString('es-BO',{day:'2-digit',month:'short',year:'numeric'}):'Sin fecha'}function initials(n){return n.trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'?'}function toast(s){let e=document.getElementById('toast');e.textContent=s;e.hidden=false;clearTimeout(timer);timer=setTimeout(()=>e.hidden=true,2600)}function view(v,skipHistory=false){if(!skipHistory){try{history.pushState({asistenciaView:v},'', '#'+v)}catch(e){}}document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===v));window.scrollTo({top:0,behavior:'smooth'})}function count(r){let c={present:0,justified:0,absent:0,total:0};(r.attendance||[]).forEach(a=>{if(c[a.status]!==undefined)c[a.status]++;c.total++});return c}function records(k){return(g()?.records||[]).filter(r=>mk(r.date)===k).sort((a,b)=>a.date.localeCompare(b.date))}
+function renderGroups(){let e=document.getElementById('groups');if(!data.groups.length){e.innerHTML='<div class="empty" style="grid-column:1/-1">🌷<p><b>Aún no tienes grupos</b></p>Crea tu primer grupo con el botón de arriba.</div>';return}e.innerHTML=data.groups.map((x,i)=>`<article class="card" style="--accent:${x.color||palette[i%palette.length]}"><div class="group-top" data-open="${x.id}"><div class="avatar" style="background:${x.color||palette[i%palette.length]}22;color:${x.color||palette[i%palette.length]}">${esc(initials(x.name))}</div><div style="min-width:0"><div class="group-name">${esc(x.name)}</div><div class="meta">${x.members.length} integrantes</div></div><div class="spacer"></div><button class="icon small" data-edit-group="${x.id}">✎</button><button class="icon small" data-delete-group="${x.id}">×</button></div><div class="group-foot"><span class="pill">● Grupo #${i+1}</span><span class="meta">${x.records.length} registros</span></div></article>`).join('')}
+function openGroup(id){gid=id;renderGroup();view('group')}function renderGroup(){let x=g();if(!x)return;let color=x.color||palette[0];document.getElementById('banner').innerHTML=`<div class="banner" style="--accent:${color}"><div class="avatar" style="background:${color}22;color:${color}">${esc(initials(x.name))}</div><div style="flex:1"><h3>${esc(x.name)}</h3><div class="meta">${x.members.length} integrantes · ${x.records.length} registros guardados</div></div><button class="btn outline small" id="editCurrent">✎ Editar</button></div>`;document.getElementById('editCurrent').onclick=()=>groupModal(x.id);document.getElementById('count').textContent=x.records.length+' registros';let rs=[...x.records].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);document.getElementById('recent').innerHTML=rs.length?rs.map(r=>`<div class="record"><div class="datechip"><small>${esc(r.date.slice(5,7))}</small><strong>${esc(r.date.slice(8,10))}</strong></div><div class="rinfo"><b>${esc(r.activity||'Actividad')}</b><small>${esc(fd(r.date))} · ${count(r).present} presentes</small></div><button class="btn outline small" data-open-month="${mk(r.date)}">Ver mes →</button></div>`).join(''):'<div class="empty" style="margin-top:12px">Todavía no hay asistencias guardadas.</div>'}
+function modal(title,body,buttons){document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;let a=document.getElementById('modalActions');a.innerHTML='';buttons.forEach(x=>{let b=document.createElement('button');b.className=x.cls;b.textContent=x.text;b.onclick=x.fn;a.appendChild(b)});document.getElementById('modalback').classList.add('open')}function closeModal(){document.getElementById('modalback').classList.remove('open')}function confirm(msg,fn){modal('Confirmar acción',`<p>${esc(msg)}</p>`,[{text:'Cancelar',cls:'btn outline',fn:closeModal},{text:'Confirmar',cls:'btn danger',fn:()=>{closeModal();fn()}}])}
+function groupModal(editId=null){let old=editId?data.groups.find(x=>x.id===editId):null;modal(old?'Editar grupo':'Crear grupo',`<div class="field"><label for="gn">Nombre del grupo</label><input id="gn" maxlength="70" placeholder="Nombre..." value="${esc(old?.name||'')}"></div>`,[{text:'Cancelar',cls:'btn outline',fn:closeModal},{text:'Guardar',cls:'btn primary',fn:()=>{let n=document.getElementById('gn').value.trim();if(!n){toast('Escribe el nombre del grupo.');return}if(old)old.name=n;else data.groups.push({id:id(),name:n,color:palette[data.groups.length%palette.length],members:[],records:[]});persist();closeModal();renderGroups();if(old&&gid===old.id)renderGroup();toast(old?'Grupo actualizado.':'Grupo creado.')}}]);setTimeout(()=>document.getElementById('gn')?.focus(),50)}
+function memberModal(mid=null){let x=g(),old=mid?x.members.find(m=>m.id===mid):null;modal(old?'Editar integrante':'Agregar integrantes',`<div class="field"><label>Forma de agregar</label><select id="mode" ${old?'disabled':''}><option value="one">Una persona</option><option value="many">Lista completa de nombres</option></select></div><div class="field" id="onefield" style="margin-top:12px"><label for="mn">Nombre completo</label><input id="mn" maxlength="100" placeholder="Ej. María López" value="${esc(old?.name||'')}"></div><div class="field" id="manyfield" style="display:none;margin-top:12px"><label for="bulk">Un nombre por línea</label><textarea id="bulk" placeholder="María López&#10;Ana Torres&#10;Sofía García"></textarea></div>`,[{text:'Cancelar',cls:'btn outline',fn:closeModal},{text:'Guardar',cls:'btn primary',fn:()=>{let mode=document.getElementById('mode').value;if(mode==='one'||old){let n=document.getElementById('mn').value.trim();if(!n){toast('Escribe el nombre completo.');return}if(old)old.name=n;else x.members.push({id:id(),name:n})}else{let ns=document.getElementById('bulk').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean),seen=new Set(x.members.map(m=>m.name.toLocaleLowerCase('es')));if(!ns.length){toast('Escribe al menos un nombre.');return}ns.forEach(n=>{if(!seen.has(n.toLocaleLowerCase('es'))){x.members.push({id:id(),name:n});seen.add(n.toLocaleLowerCase('es'))}})}persist();closeModal();renderMembers();renderGroup();toast('Lista actualizada.')}}]);if(!old)document.getElementById('mode').onchange=e=>{let many=e.target.value==='many';document.getElementById('onefield').style.display=many?'none':'flex';document.getElementById('manyfield').style.display=many?'flex':'none'};setTimeout(()=>document.getElementById('mn')?.focus(),50)}
+function renderMembers(){let x=g(),q=document.getElementById('memberSearch').value.trim().toLocaleLowerCase('es'),ms=x.members.filter(m=>m.name.toLocaleLowerCase('es').includes(q));document.getElementById('memberList').innerHTML=ms.length?'<div class="member-list">'+ms.map(m=>`<div class="mrow" style="grid-template-columns:minmax(0,1fr) auto auto"><div class="mname">${esc(m.name)}</div><button class="btn outline small" data-edit-member="${m.id}">✎ Editar</button><button class="icon small" data-delete-member="${m.id}">×</button></div>`).join('')+'</div>':'<div class="empty">No hay integrantes que coincidan. Agrega uno con el botón de arriba.</div>'}
+function startAttendance(){let x=g();draft={};x.members.forEach(m=>draft[m.id]='absent');document.getElementById('date').value=iso();document.getElementById('activity').value='';document.getElementById('attendanceSearch').value='';renderAttendance();view('attendance')}function renderAttendance(){let x=g(),q=document.getElementById('attendanceSearch').value.trim().toLocaleLowerCase('es'),ms=x.members.filter(m=>m.name.toLocaleLowerCase('es').includes(q)),marked=Object.values(draft).filter(Boolean).length;document.getElementById('progress').textContent=`${marked}/${x.members.length} marcados`;document.getElementById('attendanceList').innerHTML=!x.members.length?'<div class="empty">Primero agrega integrantes a este grupo.</div>':`<div class="member-list"><div class="mrow mhead"><div>Integrante</div><div class="status">Presente</div><div class="status">Justif.</div><div class="status">Falta</div></div>${ms.map(m=>`<div class="mrow"><div class="mname">${esc(m.name)}</div>${['present','justified','absent'].map(s=>`<div class="status"><button class="sbtn ${draft[m.id]===s?'on '+s:''}" data-status-member="${m.id}" data-status="${s}" title="${names[s]}">${draft[m.id]===s?symbols[s]:'○'}</button></div>`).join('')}</div>`).join('')}</div>`;summary()}function summary(){let x=g(),c={present:0,justified:0,absent:0,total:x.members.length};Object.values(draft).forEach(s=>{if(c[s]!==undefined)c[s]++});document.getElementById('summary').innerHTML=`<div class="sum present"><span>Presentes</span><strong>${c.present}</strong></div><div class="sum justified"><span>Justificadas</span><strong>${c.justified}</strong></div><div class="sum absent"><span>Faltas</span><strong>${c.absent}</strong></div><div class="sum"><span>Total</span><strong>${c.total}</strong></div>`}
+function renderHistory(){let x=g(),filter=document.getElementById('monthFilter').value,rs=[...x.records].filter(r=>!filter||mk(r.date)===filter).sort((a,b)=>b.date.localeCompare(a.date)),keys=[...new Set(rs.map(r=>mk(r.date)))];document.getElementById('historyList').innerHTML=keys.length?keys.map(k=>{let list=rs.filter(r=>mk(r.date)===k),p=list.reduce((n,r)=>n+count(r).present,0);return `<section class="month"><div class="month-head"><div><h3>${esc(ml(k))}</h3><p>${list.length} jornadas · ${p} asistencias registradas</p></div><div class="actions"><button class="btn outline small" data-open-month="${k}">Ver tabla</button><button class="btn primary small" data-export-month="${k}">Exportar Excel</button></div></div>${list.map(r=>{let c=count(r);return `<div class="record"><div class="datechip"><small>${esc(new Date(r.date+'T12:00:00').toLocaleDateString('es-BO',{weekday:'short'}))}</small><strong>${esc(r.date.slice(8,10))}</strong></div><div class="rinfo"><b>${esc(r.activity||'Actividad')}</b><small>${esc(fd(r.date))} · ${c.present} presentes · ${c.justified} justificadas · ${c.absent} faltas</small></div><button class="icon small" data-delete-record="${r.id}">×</button></div>`}).join('')}</section>`}).join(''):'<div class="empty">No hay registros para este mes todavía.</div>'}
+function openMonth(k,skipHistory=false){month=k;if(!skipHistory){try{history.pushState({asistenciaView:'matrixView',asistenciaMonth:k},'', '#matrixView')}catch(e){}}let x=g(),rs=records(k),dates=[...new Set(rs.map(r=>r.date))].sort(),map={};rs.forEach(r=>(r.attendance||[]).forEach(a=>{map[a.memberId]??={};map[a.memberId][r.date]=a.status}));document.getElementById('matrixTitle').textContent='Tabla · '+ml(k);let body=x.members.map(m=>{let n=0,p=0;let cells=dates.map(d=>{let s=map[m.id]?.[d]||'';if(s){n++;if(s==='present')p++}return `<td>${s?`<span class="dot ${s}" title="${names[s]}"></span>`:'—'}</td>`}).join('');return `<tr><td>${esc(m.name)}</td>${cells}<td><b>${n?Math.round(p/n*100):0}%</b></td></tr>`}).join(''),head=`<tr><th>Integrante</th>${dates.map(d=>`<th title="${esc(rs.find(r=>r.date===d)?.activity||'')}">${d.slice(8,10)}<br>${new Date(d+'T12:00:00').toLocaleDateString('es-BO',{month:'short'})}</th>`).join('')}<th>%</th></tr>`,tot=rs.reduce((a,r)=>{let c=count(r);a.p+=c.present;a.j+=c.justified;a.f+=c.absent;return a},{p:0,j:0,f:0});document.getElementById('matrixContent').innerHTML=`<div class="panel"><div class="heading" style="margin-top:0"><div><h3>${esc(x.name)}</h3><span class="meta">${rs.length} jornadas registradas</span></div><span class="pill">${esc(ml(k))}</span></div><div class="summary"><div class="sum present"><span>Presentes</span><strong>${tot.p}</strong></div><div class="sum justified"><span>Justificadas</span><strong>${tot.j}</strong></div><div class="sum absent"><span>Faltas</span><strong>${tot.f}</strong></div><div class="sum"><span>Jornadas</span><strong>${rs.length}</strong></div></div></div>${rs.length?`<div class="table-scroll"><table class="matrix"><thead>${head}</thead><tbody>${body}</tbody></table></div><p class="meta">● Presente &nbsp; <span style="color:#e8ae36">● Justificada</span> &nbsp; <span style="color:#d84a55">● Falta</span></p>`:'<div class="empty">No hay registros guardados en este mes.</div>'}<p class="meta">Porcentaje individual = presentes ÷ estados marcados. Las justificaciones no cuentan como presencia.</p>`;document.getElementById('sessions').innerHTML=rs.map(r=>{let c=count(r);return `<div class="record"><div class="datechip"><strong>${r.date.slice(8,10)}</strong></div><div class="rinfo"><b>${esc(r.activity)}</b><small>${esc(fd(r.date))} · ${c.present} presentes · ${c.justified} justificadas · ${c.absent} faltas</small></div></div>`}).join('')||'<div class="empty">No hay jornadas en este mes.</div>';document.getElementById('sessions').style.display='none';document.getElementById('matrixContent').style.display='block';document.getElementById('toggleSessions').textContent='Ver lista de jornadas';view('matrixView',true)}
+function csv(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}function download(file,rows){let blob=new Blob(['\ufeff'+rows.map(r=>r.map(csv).join(';')).join('\r\n')],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=file;a.click();URL.revokeObjectURL(url)}function exportMonth(k){let x=g(),rs=records(k);if(!rs.length){toast('No hay registros para exportar.');return}let rows=[['Grupo',x.name],['Mes',ml(k)],[],['Fecha','Actividad','Integrante','Estado']];rs.forEach(r=>(r.attendance||[]).forEach(a=>rows.push([r.date,r.activity,a.name||x.members.find(m=>m.id===a.memberId)?.name||'Integrante',names[a.status]||a.status])));download('asistencia_'+x.name.replace(/[^a-z0-9_-]/gi,'_')+'_'+k+'.csv',rows);toast('Archivo CSV listo para abrir en Excel.')}function backup(){let rows=[['Grupo','Fecha','Actividad','Integrante','Estado']];data.groups.forEach(x=>(x.records||[]).forEach(r=>(r.attendance||[]).forEach(a=>rows.push([x.name,r.date,r.activity,a.name||x.members.find(m=>m.id===a.memberId)?.name||'',names[a.status]||a.status]))));if(rows.length===1){toast('Todavía no hay registros para exportar.');return}download('copia_asistencias.csv',rows);toast('Copia de asistencias exportada.')}
+function deleteGroup(id0){let x=data.groups.find(z=>z.id===id0);confirm(`¿Eliminar el grupo "${x.name}" y todos sus registros? No se puede deshacer.`,()=>{data.groups=data.groups.filter(z=>z.id!==id0);persist();renderGroups();if(gid===id0)view('home');toast('Grupo eliminado.')})}function deleteMember(id0){let x=g(),m=x.members.find(z=>z.id===id0);confirm(`¿Eliminar a ${m.name} de la lista? El historial guardado se conservará.`,()=>{x.members=x.members.filter(z=>z.id!==id0);persist();renderMembers();renderGroup();toast('Integrante eliminado.')})}function deleteRecord(id0){let x=g(),r=x.records.find(z=>z.id===id0);confirm(`¿Eliminar la asistencia del ${fd(r.date)} (${r.activity})?`,()=>{x.records=x.records.filter(z=>z.id!==id0);persist();renderHistory();renderGroup();toast('Registro eliminado.')})}
+function saveAttendance(){let x=g(),date=document.getElementById('date').value,activity=document.getElementById('activity').value.trim();if(!x.members.length){toast('Primero agrega integrantes.');return}if(!date){toast('Selecciona la fecha.');return}if(!activity){toast('Escribe la actividad.');return}let missing=x.members.filter(m=>!draft[m.id]);if(missing.length){toast(`Falta marcar a ${missing.length} integrante(s).`);return}let old=x.records.find(r=>r.date===date&&r.activity.toLocaleLowerCase('es')===activity.toLocaleLowerCase('es')),att=x.members.map(m=>({memberId:m.id,name:m.name,status:draft[m.id]}));if(old){confirm('Ya existe un registro con la misma fecha y actividad. ¿Quieres reemplazarlo?',()=>{old.attendance=att;persist();renderGroup();view('group');toast('Asistencia actualizada.')});return}x.records.push({id:id(),date,activity,attendance:att});if(persist()){renderGroup();view('group');toast('¡Asistencia guardada correctamente!')}}
+document.getElementById('addGroup').onclick=()=>groupModal();document.getElementById('backup').onclick=backup;document.getElementById('goAttendance').onclick=startAttendance;document.getElementById('goMembers').onclick=()=>{document.getElementById('memberSearch').value='';renderMembers();view('members')};document.getElementById('addMember').onclick=()=>memberModal();document.getElementById('memberSearch').oninput=renderMembers;document.getElementById('attendanceSearch').oninput=renderAttendance;document.getElementById('allPresent').onclick=()=>{g().members.forEach(m=>draft[m.id]='present');renderAttendance()};document.getElementById('saveAttendance').onclick=saveAttendance;document.getElementById('discard').onclick=()=>confirm('¿Descartar el registro actual sin guardarlo?',()=>{view('group');toast('Registro descartado.')});document.getElementById('goHistory').onclick=()=>{document.getElementById('monthFilter').value='';renderHistory();view('history')};document.getElementById('monthFilter').onchange=renderHistory;document.getElementById('allMonths').onclick=()=>{document.getElementById('monthFilter').value='';renderHistory()};document.getElementById('exportMonth').onclick=()=>exportMonth(month);document.getElementById('toggleSessions').onclick=()=>{let s=document.getElementById('sessions'),m=document.getElementById('matrixContent'),on=s.style.display==='none';s.style.display=on?'block':'none';m.style.display=on?'none':'block';document.getElementById('toggleSessions').textContent=on?'Ver tabla mensual':'Ver lista de jornadas'};history.replaceState({asistenciaView:'home'},'', location.hash||location.pathname);window.addEventListener('popstate',e=>{let s=e.state||{},v=s.asistenciaView||'home';if(v==='group')renderGroup();else if(v==='members')renderMembers();else if(v==='history')renderHistory();else if(v==='matrixView'){let k=s.asistenciaMonth||month;if(k)openMonth(k,true);else v='history'}else if(v==='attendance')renderAttendance();view(v,true)});document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{if(history.state&&history.state.asistenciaView===b.dataset.back){if(b.dataset.back==='group')renderGroup();view(b.dataset.back,true)}else if(history.length>1){history.back()}else{if(b.dataset.back==='group')renderGroup();view(b.dataset.back)}});document.addEventListener('click',e=>{let t=e.target.closest('button,[data-open]');if(!t)return;if(t.dataset.open){openGroup(t.dataset.open);return}if(t.dataset.editGroup){groupModal(t.dataset.editGroup);return}if(t.dataset.deleteGroup){deleteGroup(t.dataset.deleteGroup);return}if(t.dataset.editMember){memberModal(t.dataset.editMember);return}if(t.dataset.deleteMember){deleteMember(t.dataset.deleteMember);return}if(t.dataset.statusMember){let memberId=t.dataset.statusMember,status=t.dataset.status;draft[memberId]=(status==='absent'||draft[memberId]!==status)?status:'absent';renderAttendance();return}if(t.dataset.openMonth){openMonth(t.dataset.openMonth);return}if(t.dataset.exportMonth){exportMonth(t.dataset.exportMonth);return}if(t.dataset.deleteRecord){deleteRecord(t.dataset.deleteRecord);return}});document.getElementById('modalback').onclick=e=>{if(e.target.id==='modalback')closeModal()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});renderGroups();
+})();
+</script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.log('No se pudo activar el modo sin conexión',err)));}</script></body></html>
